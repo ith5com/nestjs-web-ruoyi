@@ -20,3 +20,8 @@ export const getAuthorButtons = () => {
 export const getMenuList = () => {
 	return http.get<Menu.MenuOptions[]>(ACCOUNT_PORT + `/menus`);
 };
+
+// * 刷新token接口
+export const refreshTokenApi = (refreshToken: string) => {
+	return http.post<Login.ResLogin>(AUTH_PORT + `/refreshToken`, { refreshToken });
+};

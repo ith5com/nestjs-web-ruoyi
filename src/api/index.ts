@@ -8,6 +8,7 @@ import { AxiosCanceler } from "./helper/axiosCancel";
 import { setToken } from "@/redux/modules/global/action";
 import { message } from "antd";
 import { store } from "@/redux";
+import { refreshTokenApi } from "@/api/modules/login";
 
 const axiosCanceler = new AxiosCanceler();
 
@@ -51,12 +52,34 @@ class RequestHttp {
 		 *  服务器换返回信息 -> [拦截统一处理] -> 客户端JS获取到信息
 		 */
 		this.service.interceptors.response.use(
-			(response: AxiosResponse) => {
+			async (response: AxiosResponse) => {
 				const { data, config } = response;
 				NProgress.done();
 				// * 在请求结束后，移除本次请求(关闭loading)
 				axiosCanceler.removePending(config);
 				tryHideFullScreenLoading();
+				// * 响应体401，刷新token
+				if (data.code == 401) {
+					try {
+						const refreshToken = localStorage.getItem("refreshToken");
+						if (refreshToken) {
+							const refreshRes = await refreshTokenApi(refreshToken);
+							if (refreshRes.data?.accessToken) {
+								store.dispatch(setToken(refreshRes.data.accessToken));
+								// 更新请求头
+								config.headers = config.headers || {};
+								config.headers["Authorization"] = `Bearer ${refreshRes.data.accessToken}`;
+								// 重新发起原请求
+								return this.service(config);
+							}
+						}
+					} catch (e) {
+						message.error("登录已过期，请重新登录");
+						store.dispatch(setToken(""));
+						window.location.hash = "/login";
+						return Promise.reject(data);
+					}
+				}
 				// * 登录失效（code == 599）
 				if (data.code == ResultEnum.OVERDUE) {
 					store.dispatch(setToken(""));
@@ -73,7 +96,7 @@ class RequestHttp {
 				return data;
 			},
 			async (error: AxiosError) => {
-				const { response } = error;
+				const { response, config } = error;
 				NProgress.done();
 				tryHideFullScreenLoading();
 				// 请求超时单独判断，请求超时没有 response
