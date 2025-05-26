@@ -22,7 +22,7 @@
 		justify-content: space-around;
 		width: 96%;
 		height: 94%;
-		padding: 0 4% 0 20px;
+		// padding: 0 4% 0 20px;
 		overflow: hidden;
 		border-radius: 10px;
 		.login-left {
@@ -44,7 +44,6 @@
 					width: 70px;
 				}
 				.logo-text {
-					padding-left: 25px;
 					font-size: 48px;
 					font-weight: bold;
 					white-space: nowrap;
@@ -75,7 +74,6 @@
 					display: flex;
 					justify-content: space-between;
 					.ant-btn {
-						width: 180px;
 						span {
 							font-size: 14px;
 						}
@@ -84,4 +82,56 @@
 			}
 		}
 	}
+}
+
+.login-left-blue {
+	flex: 1.2;
+	height: 100%;
+	background: linear-gradient(135deg, #3575f6 0%, #2563d6 100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	min-width: 420px;
+}
+.login-left-content {
+	width: 80%;
+	max-width: 420px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+}
+.login-left-logo {
+	width: 48px;
+	margin-bottom: 24px;
+}
+.login-left-title {
+	font-size: 32px;
+	font-weight: bold;
+	margin-bottom: 32px;
+	letter-spacing: 2px;
+}
+.login-left-desc {
+	font-size: 16px;
+	line-height: 2;
+	margin-bottom: 48px;
+	color: #e6eaff;
+}
+.login-left-author {
+	font-size: 14px;
+	color: #c3d3fa;
+	margin-top: 24px;
+}
+.login-form {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-width: 380px;
+	background: #fff;
+	border-radius: 10px;
+	// box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.08);
+	margin: 40px 0;
 }

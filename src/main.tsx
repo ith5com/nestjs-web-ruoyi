@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import "@/styles/reset.less";
 import "@/assets/iconfont/iconfont.less";
 import "@/assets/fonts/font.less";
@@ -12,16 +12,28 @@ import { store, persistor } from "@/redux";
 import App from "@/App";
 
 // react 17 创建，控制台会报错，暂时不影响使用（菜单折叠时不会出现闪烁）
-ReactDOM.render(
+// ReactDOM.render(
+// 	// * react严格模式
+// 	// <React.StrictMode>
+// 	<Provider store={store}>
+// 		<PersistGate persistor={persistor}>
+// 			<App />
+// 		</PersistGate>
+// 	</Provider>,
+// 	// </React.StrictMode>,
+// 	document.getElementById("root")
+// );
+
+// React 18 创建
+ReactDOM.createRoot(document.getElementById("root")!).render(
 	// * react严格模式
 	// <React.StrictMode>
 	<Provider store={store}>
 		<PersistGate persistor={persistor}>
 			<App />
 		</PersistGate>
-	</Provider>,
-	// </React.StrictMode>,
-	document.getElementById("root")
+	</Provider>
+	// </React.StrictMode>
 );
 
 // import ReactDOM from "react-dom/client";
