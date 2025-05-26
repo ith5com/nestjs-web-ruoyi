@@ -61,7 +61,9 @@ class RequestHttp {
 				// * 响应体401，刷新token
 				if (data.code == 401) {
 					try {
-						const refreshToken = localStorage.getItem("refreshToken");
+						// const refreshToken = localStorage.getItem("refreshToken");
+						const refreshToken = store.getState().global.refreshToken;
+						console.log("refreshToken", refreshToken);
 						if (refreshToken) {
 							const refreshRes = await refreshTokenApi(refreshToken);
 							if (refreshRes.data?.accessToken) {
@@ -96,7 +98,7 @@ class RequestHttp {
 				return data;
 			},
 			async (error: AxiosError) => {
-				const { response, config } = error;
+				const { response } = error;
 				NProgress.done();
 				tryHideFullScreenLoading();
 				// 请求超时单独判断，请求超时没有 response

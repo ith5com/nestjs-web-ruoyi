@@ -5,7 +5,7 @@ import { Login } from "@/api/interface";
 import { loginApi } from "@/api/modules/login";
 import { HOME_URL } from "@/config/config";
 import { connect } from "react-redux";
-import { setToken } from "@/redux/modules/global/action";
+import { setToken, setRefreshToken } from "@/redux/modules/global/action";
 import { useTranslation } from "react-i18next";
 import { setTabsList } from "@/redux/modules/tabs/action";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ import wechatQR from "@/assets/images/wechat_qr.png";
 
 const LoginForm = (props: any) => {
 	const { t } = useTranslation();
-	const { setToken, setTabsList } = props;
+	const { setToken, setTabsList, setRefreshToken } = props;
 	const navigate = useNavigate();
 	const [form] = Form.useForm();
 	const [loading, setLoading] = useState<boolean>(false);
@@ -23,7 +23,9 @@ const LoginForm = (props: any) => {
 		try {
 			setLoading(true);
 			const { data } = await loginApi(loginForm);
+			console.log("data", data);
 			setToken(data?.accessToken);
+			setRefreshToken(data?.refreshToken);
 			setTabsList([]);
 			message.success("登录成功！");
 			navigate(HOME_URL);
@@ -85,5 +87,5 @@ const LoginForm = (props: any) => {
 	);
 };
 
-const mapDispatchToProps = { setToken, setTabsList };
+const mapDispatchToProps = { setToken, setTabsList, setRefreshToken };
 export default connect(null, mapDispatchToProps)(LoginForm);

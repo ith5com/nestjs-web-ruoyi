@@ -31,6 +31,7 @@ export namespace Login {
 	}
 	export interface ResLogin {
 		accessToken: string;
+		refreshToken: string;
 	}
 	export interface ResAuthButtons {
 		[propName: string]: any;

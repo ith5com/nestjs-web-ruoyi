@@ -6,6 +6,11 @@ export const setToken = (token: string) => ({
 	type: types.SET_TOKEN,
 	token
 });
+// * setRefreshToken
+export const setRefreshToken = (refreshToken: string) => ({
+	type: types.SET_REFRESH_TOKEN,
+	refreshToken
+});
 
 // * setAssemblySize
 export const setAssemblySize = (assemblySize: string) => ({

@@ -5,6 +5,7 @@ import * as types from "@/redux/mutation-types";
 
 const globalState: GlobalState = {
 	token: "",
+	refreshToken: "",
 	userInfo: "",
 	assemblySize: "middle",
 	language: "",
@@ -30,6 +31,9 @@ const global = (state: GlobalState = globalState, action: AnyAction) =>
 		switch (action.type) {
 			case types.SET_TOKEN:
 				draftState.token = action.token;
+				break;
+			case types.SET_REFRESH_TOKEN:
+				draftState.refreshToken = action.refreshToken;
 				break;
 			case types.SET_ASSEMBLY_SIZE:
 				draftState.assemblySize = action.assemblySize;
