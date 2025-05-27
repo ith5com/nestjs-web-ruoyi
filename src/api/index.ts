@@ -50,7 +50,6 @@ service.interceptors.request.use(
 	},
 	(error: AxiosError) => {
 		// Do something with request error
-		console.log(error); // for debug
 		Promise.reject(error);
 	}
 );
@@ -58,7 +57,6 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
 	(response: AxiosResponse<Recordable>) => {
-		console.log("response", response.data);
 		const config = response.config;
 		if (response.headers.Authorization) {
 			store.dispatch(setToken(response.headers.Authorization));
@@ -67,10 +65,9 @@ service.interceptors.response.use(
 			message.error(response.data.msg);
 			return Promise.reject(response.data.msg);
 		}
-		console.log("response.data.code", response.data.code);
+
 		if (response.data.code === 401) {
 			if (!isRefreshing) {
-				console.log("进来");
 				isRefreshing = true;
 				// return
 				return service({
@@ -91,7 +88,6 @@ service.interceptors.response.use(
 							window.location.hash = "/login";
 							return;
 						}
-						console.log("token", res);
 
 						service.defaults.headers.common["Authorization"] = `Bearer ${res.data.accessToken}`;
 						store.dispatch(setToken(res.data.accessToken));
@@ -115,7 +111,6 @@ service.interceptors.response.use(
 						isRefreshing = false;
 					});
 			} else {
-				console.log("没进来");
 				// 正在刷新token，返回一个未执行resolve的promise
 				return new Promise(resolve => {
 					// 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
@@ -125,13 +120,13 @@ service.interceptors.response.use(
 					});
 				});
 			}
-		} else if (response.data.code !== "0") {
-			return response.data;
+		} else if (response.data.code !== 200) {
+			message.error(response.data.message);
+			return Promise.reject(response.data.message);
 		}
 		return response.data;
 	},
 	(error: AxiosError) => {
-		console.log("err" + error); // for debug
 		message.error(error.message);
 		return Promise.reject(error);
 	}
