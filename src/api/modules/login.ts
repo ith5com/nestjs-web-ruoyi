@@ -23,5 +23,5 @@ export const getMenuList = () => {
 
 // * 刷新token接口
 export const refreshTokenApi = (refreshToken: string) => {
-	return http.post<Login.ResLogin>(AUTH_PORT + `/refreshToken`, { refreshToken });
+	return http.post<Login.ResLogin>(AUTH_PORT + `/refresh-token`, { refreshToken });
 };

@@ -81,6 +81,8 @@ const LayoutMenu = (props: any) => {
 			const dynamicRouter = handleRouter(data);
 			setAuthRouter(dynamicRouter);
 			setMenuListAction(data);
+		} catch (e) {
+			console.error("获取菜单失败:", e); // ✅ 不要吞掉错误
 		} finally {
 			setLoading(false);
 		}

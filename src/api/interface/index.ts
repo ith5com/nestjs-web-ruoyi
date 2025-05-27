@@ -30,6 +30,8 @@ export namespace Login {
 		password: string;
 	}
 	export interface ResLogin {
+		code: number;
+		msg: string;
 		accessToken: string;
 		refreshToken: string;
 	}
