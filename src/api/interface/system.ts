@@ -108,4 +108,30 @@ export namespace System {
 			updateAt: string;
 		};
 	}
+
+	export interface ReqMenuList extends ReqPage {
+		name?: string;
+		path?: string;
+		permission?: string;
+		type?: number;
+		parentId?: string;
+	}
+
+	export interface ResMenuList {
+		list: MenuData[];
+		page: number;
+		pageSize: number;
+		total: number;
+	}
+
+	export interface MenuData {
+		id: string;
+		name: string;
+		path: string;
+		permission: string;
+		icon: string;
+		sort: number;
+		isLink: number;
+		isShow: number;
+	}
 }

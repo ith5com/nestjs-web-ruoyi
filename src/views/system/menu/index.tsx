@@ -1,11 +1,18 @@
-import { Button, Col, Form, Input, Row, Space } from "antd";
+import { Button, Col, Form, Input, Row, Space, Table, Tag } from "antd";
 import { UpCircleFilled, PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddMenu from "./components/add-menu";
+// import IconFont from "@/components/IconFont";
+import { getMenuListApi } from "@/api/modules/system/permission";
 
 const Menu = () => {
 	const [form] = Form.useForm();
 	const [addMenuVisible, setAddMenuVisible] = useState(false);
+	const [menuList, setMenuList] = useState<any[]>([]);
+	const [pagination, setPagination] = useState({
+		page: 1,
+		pageSize: 10
+	});
 	const formFileds = [
 		{
 			label: "菜单名称",
@@ -24,6 +31,52 @@ const Menu = () => {
 		form.resetFields();
 		handleSearch();
 	};
+
+	const getMenuList = async () => {
+		const { data } = await getMenuListApi({
+			...form.getFieldsValue(),
+			...pagination
+		});
+		if (data) {
+			setMenuList(data.list);
+		}
+	};
+
+	const handleTableChange = (newPagination: any) => {
+		setPagination(newPagination);
+		getMenuList();
+	};
+
+	const columns = [
+		{
+			title: "菜单名称",
+			dataIndex: "name",
+			key: "name"
+		},
+		{
+			title: "菜单类型",
+			dataIndex: "type",
+			key: "type",
+			render: (text: number) => {
+				return text === 0 ? (
+					<Tag color="blue">目录</Tag>
+				) : text === 1 ? (
+					<Tag color="green">菜单</Tag>
+				) : (
+					<Tag color="orange">按钮</Tag>
+				);
+			}
+		},
+		{
+			title: "菜单路径",
+			dataIndex: "path"
+		}
+	];
+
+	useEffect(() => {
+		getMenuList();
+	}, []);
+
 	return (
 		<div>
 			<div className="bg-white rounded-md shadow-sm p-4">
@@ -65,7 +118,9 @@ const Menu = () => {
 						</Button>
 					</div>
 				</div>
+				<Table columns={columns} dataSource={menuList} pagination={pagination} onChange={handleTableChange} />
 			</div>
+
 			<AddMenu open={addMenuVisible} onCancel={() => setAddMenuVisible(false)} onOk={handleAddMenuOk} />
 		</div>
 	);

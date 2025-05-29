@@ -8,6 +8,7 @@ export default function AddMenu(props: { open: boolean; onCancel: () => void; on
 	const [addMenuVisible, setAddMenuVisible] = useState(false);
 	const [menuTree, setMenuTree] = useState<any[]>([]);
 	const [type, setType] = useState(1);
+
 	const getMenuTree = async () => {
 		const { data } = await getPermissionOptionsApi();
 		if (data) {
@@ -67,17 +68,16 @@ export default function AddMenu(props: { open: boolean; onCancel: () => void; on
 			>
 				<Form.Item name="type" label="菜单类型" rules={[{ required: true, message: "请选择菜单类型" }]}>
 					<Radio.Group onChange={handleTypeChange}>
-						<Radio value={1}>目录</Radio>
-						<Radio value={2}>菜单</Radio>
-						<Radio value={3}>按钮</Radio>
+						<Radio value={0}>目录</Radio>
+						<Radio value={1}>菜单</Radio>
+						<Radio value={2}>按钮</Radio>
 					</Radio.Group>
 				</Form.Item>
-
-				{type !== 3 && (
+				<Form.Item name="name" label="菜单名称" rules={[{ required: true, message: "请输入菜单名称" }]}>
+					<Input allowClear placeholder="请输入菜单名称" />
+				</Form.Item>
+				{type !== 2 && (
 					<>
-						<Form.Item name="name" label="菜单名称" rules={[{ required: true, message: "请输入菜单名称" }]}>
-							<Input allowClear placeholder="请输入菜单名称" />
-						</Form.Item>
 						<Form.Item name="path" label="路由路径" rules={[{ required: true, message: "请输入路由路径" }]}>
 							<Input allowClear placeholder="请输入路由路径" />
 						</Form.Item>
@@ -94,7 +94,7 @@ export default function AddMenu(props: { open: boolean; onCancel: () => void; on
 					/>
 				</Form.Item>
 
-				{type !== 1 && (
+				{type !== 0 && (
 					<Form.Item
 						name="permission"
 						label="权限标识"
@@ -104,7 +104,7 @@ export default function AddMenu(props: { open: boolean; onCancel: () => void; on
 						<Input allowClear placeholder="请输入权限标识" />
 					</Form.Item>
 				)}
-				{type !== 3 && (
+				{type !== 2 && (
 					<>
 						<Form.Item name="icon" label="菜单图标" rules={[{ required: true, message: "请输入菜单图标" }]}>
 							<Input allowClear placeholder="请输入菜单图标" />

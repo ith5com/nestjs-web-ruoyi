@@ -10,3 +10,8 @@ export const getPermissionOptionsApi = () => {
 export const addMenuApi = (data: System.ReqMenuAdd) => {
 	return http.post<System.ResMenuAdd>(SYSTEM_PORT + `/menu`, data);
 };
+
+// 获取菜单
+export const getMenuListApi = (params: System.ReqMenuList) => {
+	return http.get<System.ResMenuList>(SYSTEM_PORT + `/menu`, params);
+};
