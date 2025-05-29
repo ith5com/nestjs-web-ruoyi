@@ -223,54 +223,59 @@ const User = () => {
 	}, [deptId]);
 	return (
 		<div className="system-user">
-			<div className="dept">
+			<div className="bg-white w-[20%] h-full h-screen">
 				{deptData.length && (
 					<Tree
 						treeData={deptData}
 						autoExpandParent={true}
 						fieldNames={{ title: "name", key: "id", children: "children" }}
 						onSelect={handleDeptSelect}
+						defaultExpandAll
+						defaultExpandParent
 					/>
 				)}
 			</div>
 			<div className="user">
-				<Form form={form}>
-					<Row gutter={12}>
-						{formFileds.map(item => (
-							<Col span={8} key={item.name}>
-								<Form.Item name={item.name} label={item.label}>
-									{item.Component ? (
-										<item.Component allowClear options={item.options} placeholder={item.placeholder} />
-									) : (
-										<Input allowClear placeholder={item.placeholder} />
-									)}
-								</Form.Item>
-							</Col>
-						))}
+				<div className="bg-white rounded-md shadow-sm p-4">
+					<Form form={form}>
+						<Row gutter={12}>
+							{formFileds.map(item => (
+								<Col span={8} key={item.name}>
+									<Form.Item name={item.name} label={item.label}>
+										{item.Component ? (
+											<item.Component allowClear options={item.options} placeholder={item.placeholder} />
+										) : (
+											<Input allowClear placeholder={item.placeholder} />
+										)}
+									</Form.Item>
+								</Col>
+							))}
 
-						<Col span={(3 - (formFileds.length % 3)) * 8} style={{ textAlign: "right" }}>
-							<Space>
-								<Button type="default" onClick={handleReset}>
-									重置
-								</Button>
-								<Button type="primary" onClick={handleSearch}>
-									查询
-								</Button>
-
-								{formFileds.length > 6 && (
-									<Button type="link">
-										收起
-										<UpCircleFilled />
+							<Col span={(3 - (formFileds.length % 3)) * 8} style={{ textAlign: "right" }}>
+								<Space>
+									<Button type="default" onClick={handleReset}>
+										重置
 									</Button>
-								)}
-							</Space>
-						</Col>
-					</Row>
-				</Form>
-				<div className="table-container">
-					<div className="table-header">
+									<Button type="primary" onClick={handleSearch}>
+										查询
+									</Button>
+
+									{formFileds.length > 6 && (
+										<Button type="link">
+											收起
+											<UpCircleFilled />
+										</Button>
+									)}
+								</Space>
+							</Col>
+						</Row>
+					</Form>
+				</div>
+
+				<div className="bg-white rounded-md shadow-sm p-4 pt-0 mt-4">
+					<div className="flex justify-between items-center p-4 mb-2">
 						<div></div>
-						<div className="optirion">
+						<div className="flex gap-2">
 							<Space>
 								<Button type="primary" icon={<PlusOutlined />} onClick={() => setAddUserVisible(true)}>
 									新增

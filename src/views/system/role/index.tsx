@@ -250,7 +250,7 @@ const Role = () => {
 				</Form>
 			</div>
 			<div className="bg-white rounded-md shadow-sm p-4 mt-4">
-				<div className="flex justify-between items-center p-4 mb-2">
+				<div className="flex justify-between items-center p-4 pt-0 mb-2">
 					<div></div>
 					<div className="flex gap-2">
 						<Button type="primary" icon={<PlusOutlined />} onClick={() => setAddModalVisible(true)}>

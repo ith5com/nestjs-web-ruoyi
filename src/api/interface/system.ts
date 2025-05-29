@@ -74,4 +74,38 @@ export namespace System {
 			}[];
 		}[];
 	}
+
+	export interface ReqMenuAdd {
+		type: number;
+		name: string;
+		path: string;
+		parentId: string;
+		permission: string;
+		icon: string;
+		sort: number;
+		isLink: number;
+		isShow: number;
+		status: number;
+	}
+
+	export interface ResMenuAdd {
+		code: number;
+		msg: string;
+		data: {
+			id: string;
+			name: string;
+			path: string;
+			component: string;
+			permission: string;
+			icon: string;
+			sort: number;
+			isLink: number;
+			isShow: number;
+			status: number;
+			type: number;
+			parentId: string;
+			createAt: string;
+			updateAt: string;
+		};
+	}
 }
