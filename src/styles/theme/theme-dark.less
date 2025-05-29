@@ -1,12 +1,20 @@
 @import "antd/dist/antd.dark.less";
 
 /* 自定义 antd 暗黑模式样式 */
-@dark-main-bg-color: #141414;
-@dark-bg-color: #1f1f1f;
-@dark-border-color: #414243;
-@dark-text-color: #d9d9d9;
-@dark-shadow-color: 5px 5px 15px rgb(255 255 255 / 20%);
-@dark-scrollbar-bg-color: #686868;
+// @dark-main-bg-color: #141414;
+// @dark-bg-color: #1f1f1f;
+// @dark-border-color: #414243;
+// @dark-text-color: #d9d9d9;
+// @dark-shadow-color: 5px 5px 15px rgb(255 255 255 / 20%);
+// @dark-scrollbar-bg-color: #686868;
+
+@dark-bg-color: #ffffff;
+@dark-main-bg-color: #f5f5f5;
+@dark-border-color: #e4e7ed;
+@dark-border-header-color: #f6f6f6;
+@dark-text-color: rgba(0, 0, 0, 0.85);
+@dark-shadow-color: 0 0 12px #0000000d;
+@dark-scrollbar-bg-color: #dddee0;
 
 /* 需要自定义覆盖的样式 */
 body {
@@ -41,7 +49,7 @@ body {
 }
 
 /* container */
-.container {
+.admin-container {
 	/* sider */
 	.ant-layout-sider {
 		border-right: 1px solid @dark-border-color !important;

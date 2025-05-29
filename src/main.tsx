@@ -4,6 +4,7 @@ import "@/assets/iconfont/iconfont.less";
 import "@/assets/fonts/font.less";
 // import "antd/dist/antd.less";
 import "@/styles/common.less";
+import "@/index.css"; // 导入 Tailwind CSS 样式
 import "@/language/index";
 import "virtual:svg-icons-register";
 import { PersistGate } from "redux-persist/integration/react";

@@ -1,3 +1,5 @@
+import { ReqPage } from ".";
+
 // * 系统
 export namespace System {
 	export interface ReqUserList {
@@ -32,17 +34,44 @@ export namespace System {
 		}[];
 	}
 
+	export interface ReqRoleList extends ReqPage {
+		name?: string;
+		code?: string;
+		remark?: string;
+		status?: number;
+	}
+
 	export interface ResRoleList {
-		code: number;
-		msg: string;
-		data: {
-			list: [];
-		};
+		list: RoleData[];
+		total: number;
 	}
 
 	export interface ResRoleSelect {
 		code: number;
 		msg: string;
 		data: { label: string; value: string }[];
+	}
+
+	export interface RoleData {
+		id: string;
+		name: string;
+		code: string;
+		remark: string;
+		status: number;
+		createTime: string;
+		menus?: string[];
+	}
+
+	export interface ResPermissionSelect {
+		code: number;
+		msg: string;
+		data: {
+			key: string;
+			title: string;
+			children?: {
+				key: string;
+				title: string;
+			}[];
+		}[];
 	}
 }

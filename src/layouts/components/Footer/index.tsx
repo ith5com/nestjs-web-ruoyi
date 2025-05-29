@@ -8,7 +8,7 @@ const LayoutFooter = (props: any) => {
 			{!themeConfig.footer && (
 				<div className="footer">
 					<a href="http://www.spicyboy.cn/" target="_blank" rel="noreferrer">
-						2025 © 优课引擎 By ith5.com
+						2025 © 优游网络 By ith5.com
 					</a>
 				</div>
 			)}
