@@ -15,3 +15,13 @@ export const addMenuApi = (data: System.ReqMenuAdd) => {
 export const getMenuListApi = (params: System.ReqMenuList) => {
 	return http.get<System.ResMenuList>(SYSTEM_PORT + `/menu`, params);
 };
+
+// 删除菜单
+export const deleteMenuApi = (id: string) => {
+	return http.delete(`${SYSTEM_PORT}/menu/${id}`);
+};
+
+// 跟新菜单
+export const updateMenuApi = (id: string, data: System.ReqMenuAdd) => {
+	return http.put(`${SYSTEM_PORT}/menu/${id}`, data);
+};

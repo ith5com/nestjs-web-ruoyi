@@ -1,16 +1,14 @@
-import { Button, Col, Form, Input, message, Popconfirm, Row, Select, Space, Table, Tag, Tree } from "antd";
+import { Button, Col, Form, Input, message, Popconfirm, Row, Select, Space, Table, Tag } from "antd";
 import { UpCircleFilled, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./index.less";
 import { useEffect, useState } from "react";
 import { deleteUserApi, getUserListApi, deleteUserBatchApi } from "@/api/modules/system/user";
-import { getDeptTreeApi } from "@/api/modules/system/dept";
+
 import dayjs from "dayjs";
 import AddUser from "./components/add-user";
 
 const User = () => {
 	const [dataSource, setDataSource] = useState([]);
-	const [deptData, setDeptData] = useState<any>([]);
-	const [deptId, setDeptId] = useState<any>(null);
 	const [pagination, setPagination] = useState({
 		current: 1,
 		pageSize: 10,
@@ -111,7 +109,6 @@ const User = () => {
 		let params = form.getFieldsValue();
 		const { data } = await getUserListApi({
 			...params,
-			deptId,
 			page: pageParams.current,
 			pageSize: pageParams.pageSize
 		});
@@ -152,14 +149,7 @@ const User = () => {
 	const handleTableSelectChange = (newSelectedRowKeys: string[]) => {
 		setSelectedRowKeys(newSelectedRowKeys);
 	};
-	/**
-	 * 获取部门树
-	 */
-	const getDeptTree = async () => {
-		const { data } = await getDeptTreeApi();
-		console.log("data", data);
-		setDeptData(data);
-	};
+
 	/**
 	 * 处理分页变化
 	 */
@@ -186,17 +176,7 @@ const User = () => {
 			current: 1
 		});
 	};
-	/**
-	 * 处理部门树点击
-	 */
-	const handleDeptSelect = (selectedKeys: any) => {
-		console.log("selectedKeys", selectedKeys);
-		if (selectedKeys.length) {
-			setDeptId(selectedKeys[0]);
-		} else {
-			setDeptId(null);
-		}
-	};
+
 	/**
 	 * 处理编辑
 	 */
@@ -215,26 +195,10 @@ const User = () => {
 	/** */
 	useEffect(() => {
 		getUserList();
-		getDeptTree();
 	}, []);
 
-	useEffect(() => {
-		getUserList();
-	}, [deptId]);
 	return (
 		<div className="system-user">
-			<div className="bg-white w-[20%] h-full h-screen">
-				{deptData.length && (
-					<Tree
-						treeData={deptData}
-						autoExpandParent={true}
-						fieldNames={{ title: "name", key: "id", children: "children" }}
-						onSelect={handleDeptSelect}
-						defaultExpandAll
-						defaultExpandParent
-					/>
-				)}
-			</div>
 			<div className="user">
 				<div className="bg-white rounded-md shadow-sm p-4">
 					<Form form={form}>

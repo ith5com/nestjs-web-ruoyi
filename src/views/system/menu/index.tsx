@@ -1,14 +1,17 @@
-import { Button, Col, Form, Input, Row, Space, Table, Tag } from "antd";
+import { Button, Col, Form, Input, message, Modal, Row, Space, Table, Tag } from "antd";
 import { UpCircleFilled, PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import AddMenu from "./components/add-menu";
 // import IconFont from "@/components/IconFont";
-import { getMenuListApi } from "@/api/modules/system/permission";
+import { deleteMenuApi, getMenuListApi } from "@/api/modules/system/permission";
+import EditMenu from "./components/edit-menu";
 
 const Menu = () => {
 	const [form] = Form.useForm();
 	const [addMenuVisible, setAddMenuVisible] = useState(false);
 	const [menuList, setMenuList] = useState<any[]>([]);
+	const [editMenuVisible, setEditMenuVisible] = useState(false);
+	const [editMenuRecord, setEditMenuRecord] = useState<any>(null);
 	const [pagination, setPagination] = useState({
 		page: 1,
 		pageSize: 10
@@ -29,7 +32,12 @@ const Menu = () => {
 	const handleAddMenuOk = () => {
 		setAddMenuVisible(false);
 		form.resetFields();
-		handleSearch();
+		getMenuList();
+	};
+	const handleEditMenuOk = () => {
+		setEditMenuVisible(false);
+		form.resetFields();
+		getMenuList();
 	};
 
 	const getMenuList = async () => {
@@ -45,6 +53,22 @@ const Menu = () => {
 	const handleTableChange = (newPagination: any) => {
 		setPagination(newPagination);
 		getMenuList();
+	};
+
+	const handleEdit = (record: any) => {
+		setEditMenuRecord(record);
+		setEditMenuVisible(true);
+	};
+
+	const handleDelete = (record: any) => {
+		Modal.confirm({
+			title: "确定删除该菜单吗？",
+			onOk: async () => {
+				await deleteMenuApi(record.id);
+				message.success("删除成功");
+				getMenuList();
+			}
+		});
 	};
 
 	const columns = [
@@ -68,8 +92,30 @@ const Menu = () => {
 			}
 		},
 		{
+			title: "菜单权限code",
+			dataIndex: "permission",
+			key: "permission"
+		},
+		{
 			title: "菜单路径",
-			dataIndex: "path"
+			dataIndex: "path",
+			key: "path"
+		},
+		{
+			title: "操作",
+			key: "action",
+			render: (text: string, record: any) => {
+				return (
+					<>
+						<Button type="link" onClick={() => handleEdit(record)}>
+							编辑
+						</Button>
+						<Button type="link" danger onClick={() => handleDelete(record)}>
+							删除
+						</Button>
+					</>
+				);
+			}
 		}
 	];
 
@@ -122,6 +168,12 @@ const Menu = () => {
 			</div>
 
 			<AddMenu open={addMenuVisible} onCancel={() => setAddMenuVisible(false)} onOk={handleAddMenuOk} />
+			<EditMenu
+				record={editMenuRecord}
+				open={editMenuVisible}
+				onCancel={() => setEditMenuVisible(false)}
+				onOk={handleEditMenuOk}
+			/>
 		</div>
 	);
 };

@@ -1,24 +1,18 @@
-import { addMenuApi, getPermissionOptionsApi } from "@/api/modules/system/permission";
+import { updateMenuApi, getPermissionOptionsApi } from "@/api/modules/system/permission";
 import { Form, Input, message, Modal, Radio, RadioChangeEvent, TreeSelect } from "antd";
 import { useEffect, useState } from "react";
 
-export default function AddMenu(props: { open: boolean; onCancel: () => void; onOk: () => void }) {
+export default function EditMenu(props: { open: boolean; onCancel: () => void; onOk: () => void; record: any }) {
 	const { open, onCancel, onOk } = props;
 	const [form] = Form.useForm();
-	const [addMenuVisible, setAddMenuVisible] = useState(false);
+	const [editMenuVisible, setEditMenuVisible] = useState(false);
 	const [menuTree, setMenuTree] = useState<any[]>([]);
 	const [type, setType] = useState(1);
 
 	const getMenuTree = async () => {
 		const { data } = await getPermissionOptionsApi();
 		if (data) {
-			setMenuTree([
-				{
-					key: 0,
-					title: "根目录",
-					children: data
-				}
-			]);
+			setMenuTree(data);
 		}
 	};
 
@@ -38,26 +32,27 @@ export default function AddMenu(props: { open: boolean; onCancel: () => void; on
 
 	const handleSubmit = async () => {
 		const values = await form.validateFields();
-		console.log(values);
-		await addMenuApi(values);
-		message.success("新增菜单成功");
+
+		await updateMenuApi(props.record.id, values);
+		message.success("修改菜单成功");
 		form.resetFields();
-		setAddMenuVisible(false);
+		setEditMenuVisible(false);
 		onOk();
 	};
 
 	useEffect(() => {
 		if (open) {
-			setAddMenuVisible(true);
+			setEditMenuVisible(true);
+			form.setFieldsValue(props.record);
 			getMenuTree();
 		}
 	}, [open]);
 	return (
 		<Modal
-			visible={addMenuVisible}
+			visible={editMenuVisible}
 			width={600}
 			onCancel={() => {
-				setAddMenuVisible(false);
+				setEditMenuVisible(false);
 				form.resetFields();
 				onCancel();
 			}}
